@@ -2,10 +2,16 @@
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { SplitText } from 'gsap/all'
-import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useMediaQuery } from 'react-responsive'
+import { ScrollTrigger } from "gsap/all"
+gsap.registerPlugin(ScrollTrigger)
+
 
 const Hero = () => {
+
+    const videoRef = useRef<HTMLVideoElement>(null)
+    const isMobile = useMediaQuery({ maxWidth: 725 })
 
     useGSAP(() => {
         const heroSplit = new SplitText(".title", { type: "chars, words" })
@@ -29,7 +35,46 @@ const Hero = () => {
             delay: 1
         })
 
+
+
     }, [])
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const onLoaded = () => {
+            const duration = video.duration;
+            const startVideoValue = isMobile ? "top 50%" : "center 60%"
+            const endVideoValue = isMobile ? "120% top" : "bottom top"
+
+            // Clear old triggers if any
+            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+
+            gsap.to(video, {
+                currentTime: duration,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#rios",
+                    start: startVideoValue,
+                    end: endVideoValue,
+                    scrub: true,
+                    pin: true
+                }
+            });
+        };
+
+        // Wait for duration
+        if (video.readyState >= 1) {
+            onLoaded();
+        } else {
+            video.addEventListener("loadedmetadata", onLoaded);
+        }
+
+        return () => video.removeEventListener("loadedmetadata", onLoaded);
+    }, []);
+
+
 
     return (
         <>
@@ -38,7 +83,7 @@ const Hero = () => {
                 <img src={"images/hero-left-leaf.png"} alt='left-leaf' className='left-leaf' />
                 <img src={"images/hero-right-leaf.png"} alt='right-leaf' className='right-leaf' />
 
-                <div className="body">
+                <div className="body z-10">
                     <div className="content">
                         <div className="space-y-5 hidden md:block">
                             <p>Cool. Crisp. Classic.</p>
@@ -52,6 +97,17 @@ const Hero = () => {
                     </div>
                 </div>
             </section>
+            <div className="video absolute inset-0 ">
+                <video
+                    src="/videos/input.mp4"
+                    muted
+                    id='rios'
+                    playsInline
+                    preload="auto"
+                    ref={videoRef}
+
+                />
+            </div>
         </>
     )
 }
