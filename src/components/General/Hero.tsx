@@ -1,11 +1,11 @@
 "use client"
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import { SplitText } from 'gsap/all'
+import { ScrollTrigger, SplitText } from 'gsap/all'
 import React, { useEffect, useRef } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { ScrollTrigger } from "gsap/all"
-gsap.registerPlugin(ScrollTrigger)
+
+// gsap.registerPlugin(ScrollTrigger)
 
 
 const Hero = () => {
@@ -35,11 +35,6 @@ const Hero = () => {
             delay: 1
         })
 
-
-
-    }, [])
-
-    useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
 
@@ -72,7 +67,10 @@ const Hero = () => {
         }
 
         return () => video.removeEventListener("loadedmetadata", onLoaded);
-    }, []);
+
+    }, [])
+
+
 
 
 

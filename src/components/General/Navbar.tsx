@@ -1,25 +1,21 @@
 "use client"
-import React from 'react'
+import React, { useRef } from 'react'
 import { navLinks } from '../utils/constant'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/all'
 
-gsap.registerPlugin(ScrollTrigger)
+
 
 const Navbar = () => {
 
-    useGSAP(() => {
-        const navTween = gsap.timeline({
-            scrollTrigger: {
-                trigger: "nav",
-                start: "bottom top"
-            }
-        })
+    const navRef = useRef<HTMLElement>(null);
 
-        navTween.fromTo("nav", { backgroundColor: "transparent" },
+    useGSAP(() => {
+
+
+        gsap.fromTo("nav", { backgroundColor: "transparent" },
             {
                 backgroundColor: "#00000050",
                 backgroundFilter: "blur(10px)",
@@ -30,7 +26,7 @@ const Navbar = () => {
     })
 
     return (
-        <nav>
+        <nav ref={navRef}>
             <div>
                 <a href="#home" className="flex items-center">
                     <Image src={"/images/logo.png"} alt='logo' width={32} height={32} />

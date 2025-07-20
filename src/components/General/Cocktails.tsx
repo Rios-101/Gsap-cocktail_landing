@@ -3,8 +3,11 @@ import React, { useEffect, useRef } from 'react'
 import { cocktailLists, mockTailLists } from '../utils/constant'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/all'
-gsap.registerPlugin(ScrollTrigger)
+
+import { ScrollTrigger } from "gsap/all";
+
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Cocktails = () => {
 
@@ -25,24 +28,24 @@ const Cocktails = () => {
 
     }, [])
 
-    useEffect(() => {
-        const el = boxRef.current
-        const ele = boxRef2.current
+    // useEffect(() => {
+    //     const el = boxRef.current
+    //     const ele = boxRef2.current
 
-        gsap.fromTo(el, { x: 150 }, {
-            scrollTrigger: { trigger: el },
-            x: 0,
-            duration: 3,
+    //     gsap.fromTo(el, { x: 150 }, {
+    //         scrollTrigger: { trigger: el },
+    //         x: 0,
+    //         duration: 3,
 
-        })
+    //     })
 
-        gsap.fromTo(ele, { x: -50 }, {
-            scrollTrigger: { trigger: el },
-            x: 0,
-            duration: 3,
+    //     gsap.fromTo(ele, { x: -50 }, {
+    //         scrollTrigger: { trigger: el },
+    //         x: 0,
+    //         duration: 3,
 
-        })
-    })
+    //     })
+    // })
 
 
     return (
